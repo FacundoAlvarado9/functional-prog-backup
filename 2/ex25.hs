@@ -1,0 +1,1 @@
+data ListInt = ListInt [Int] Int deriving(Show)
