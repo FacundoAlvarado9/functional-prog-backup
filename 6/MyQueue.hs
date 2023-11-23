@@ -12,6 +12,9 @@ makeQueueFromList xs = Queue (makeDequeFromList xs)
 
 enqueue :: a -> Queue a -> Queue a ---- O(n)
 enqueue x (Queue dq) = Queue (pushEnd x dq)
+-- --> Could be implemented more efficiently by using an underlying data type that appends to the end
+-- in constant time. For example, Data.Sequence (https://hackage.haskell.org/package/containers-0.7/docs/Data-Sequence.html)
+
 
 dequeue :: Queue a -> Queue a ---- O(1)
 dequeue (Queue dq) = Queue (popEnd dq)
