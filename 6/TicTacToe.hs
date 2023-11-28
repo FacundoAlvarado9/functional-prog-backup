@@ -40,8 +40,6 @@ wonADiagonal (Grid m) tok
     | (isSubmapOf (fromList([(6,tok), (4,tok), (2,tok)])) m) = True -- 2nd Diag
     | otherwise = False
 
-test = wonARow ((Grid (fromList([(0,"a"), (1,"a"), (2,"a"), (3,""), (4,""),(5,""), (6,""), (7,""), (8,"")])))) "a"
-
 checkWinner :: Grid -> String -> String -> String
 checkWinner (Grid m) t1 t2
     | (wonARow (Grid m) t1) || (wonACol (Grid m) t1) || (wonADiagonal (Grid m) t1) = ("Player " ++ t1 ++ " won")
@@ -69,13 +67,3 @@ doTurns' game (k:ks) = doTurns (doTurn game k) ks
 
 doTurns :: Game -> [Int] -> Game
 doTurns game ks = foldl doTurn game ks
-
-firstMove = doTurn (newGame "a" "b") 0
-sameMove = doTurn (firstMove) 0 --Place already has a token
-moveOutsideGrid = doTurn (newGame "a" "b") 16 --Invalid grid position
-
-secondMove = doTurn (firstMove) 4
-thirdMove = doTurn (secondMove) 1
-fourthMove = doTurn (thirdMove) 7
-winningMove = doTurn (fourthMove) 2
-moveAfterWon = doTurn (winningMove) 5
