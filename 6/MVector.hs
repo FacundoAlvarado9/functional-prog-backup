@@ -5,6 +5,10 @@ data Vector a = Vector [a] deriving (Show)
 vectorFromList :: Num a => [a] -> Vector a
 vectorFromList xs = (Vector xs)
 
+--curry version
+vectorFromList :: Num a => [a] -> Vector a
+vectorFromList xs = Vector
+
 skalarMult :: Num a => a -> Vector a -> Vector a
 skalarMult x (Vector xs) = Vector (map (*x) xs)
 

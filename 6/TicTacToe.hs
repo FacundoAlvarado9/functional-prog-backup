@@ -1,6 +1,8 @@
 module TicTacToe where
 
-import Data.Map (Map, empty, insert, member, fromList,lookup,isSubmapOf, elems)
+-- check for draw in case of full grid
+
+import Data.Map
 import Data.List
 import MSplitL
 
@@ -19,6 +21,7 @@ instance Show Grid where
 
 newGame :: String -> String -> Game
 newGame t1 t2 = Game (Grid (fromList([(0," "), (1," "), (2," "), (3," "), (4," "),(5," "), (6," "), (7," "), (8," ")]))) "El juego no terminó" t1 t2 0
+-- Map.fromList [(i, " ") | i <- [0 ..8]]
 
 wonARow :: Grid -> String -> Bool
 wonARow (Grid m) tok
@@ -66,4 +69,4 @@ doTurns' game [] = game
 doTurns' game (k:ks) = doTurns (doTurn game k) ks
 
 doTurns :: Game -> [Int] -> Game
-doTurns game ks = foldl doTurn game ks
+doTurns game ks = Data.List.foldl doTurn game ks
