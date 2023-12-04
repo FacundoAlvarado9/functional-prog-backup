@@ -1,3 +1,5 @@
+module DequeTests (deque) where
+
 import Deque
 import Test.Tasty
 import qualified Test.Tasty.QuickCheck as QC
@@ -59,7 +61,8 @@ prop6 = QC.testProperty "pushFront_not_affect_peekEnd" $ \a xs->
 -- There is a LIFO relation between PeekEnd and PushEnd
 -- There is a FIFO relation between PeekEnd and PushFront
 
-run =
-  defaultMain $ localOption (QC.QuickCheckTests 5000) $
-    testGroup "All stack tests"
+deque = testGroup "All deque tests"
     [ prop1,prop2_1, prop2_2, prop3_1, prop3_2, prop3_3, prop3_4, prop4_1, prop4_2, prop5, prop6 ]
+
+run =
+  defaultMain $ localOption (QC.QuickCheckTests 5000) $ deque
