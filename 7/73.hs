@@ -7,7 +7,7 @@ fib n = trace ("fib " ++ show n ++ " = fib " ++ show (n-1) ++ " + fib " ++ show 
 
 -- From its definition: 
 -- trace :: String -> a -> a
--- it looks like a pure function. However, it has the side effect of printing messages.
+-- it looks like a pure function. However, it has the side effect of printing messages. d.h. Not pure
 
 --let's see what a function defined in the same way would do
 
