@@ -19,15 +19,16 @@ travFS action p = catch (do
 
 -- travFS' :: (FilePath-> IO ())-> FilePath-> IO ()
 -- travFS' action p = catch (
---   getDirectoryContents p
---   >>= \cs -> (map (p </>) (cs \\ [".", ".."]))
---   >>= \cp -> filterM doesFileExist cp
---   >>= \files -> mapM_ action files
---   >> filterM doesDirectoryExist cp -- will it still find variable 'cp' in scope?
---   >>= \files -> mapM_ action files)
+--   getDirectoryContents p >>= \cs ->
+--     let cp = map (p </>) (cs \\ [".", ".."])
+--     filterM doesDirectoryExist cp >>= \dirs ->
+--         filterM doesFileExist cp >>= \files ->
+--           mapM_ action files >>
+--           mapM_ (travFS action) dirs)
 --   (\e -> putStrLn $ "ERROR: "++ show (e :: IOError))
 
+sequence' [] = return []
 sequence' (x:xs) =
-  x >>= \y ->
-  sequence' xs >>= \ys -> 
-  return (y:ys)
+  x >>= (\y ->
+  sequence' xs >>= (\ys -> 
+  return (y:ys)))
