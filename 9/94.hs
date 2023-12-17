@@ -1,5 +1,5 @@
 import Control.Monad.State.Lazy
-import Data.Map (Map, lookup, insert)
+import Data.Map (Map, lookup, insert, fromList)
 import qualified Data.Map as Map
 
 data Faces = U | D | L | R
@@ -49,10 +49,14 @@ Actualizar posición
 -}
 
 newPos :: (Int, Int) -> Faces -> (Int, Int)
-newPos (i,j) U = (i-1, j)
+newPos (i,j) U
+    | i==0 = (i,j)
+    | otherwise = (i-1, j)
 newPos (i,j) R = (i, j+1)
 newPos (i,j) D = (i+1, j)
-newPos (i,j) L = (i-1, j-1)
+newPos (i,j) L
+    | j==0 = (i,j)
+    | otherwise = (i, j-1)
 
 genOutput :: Turns -> Faces -> Faces -> String
 genOutput turn oldFacingDir newFacingDir = show turn++" "++show oldFacingDir++"-"++show newFacingDir
@@ -64,7 +68,7 @@ step = state walk
 walk :: Field -> (String, Field)
 walk (Field g (Ant pos f))
     | (Data.Map.lookup pos g == Just False) = ((genOutput CW f (updtFacingDir f CW)), (Field (Data.Map.insert pos True g) (Ant (newPos pos f) (updtFacingDir f CW) )))
-    | otherwise = ((genOutput CW f (updtFacingDir f CW)), (Field g (Ant (newPos pos f) (updtFacingDir f CounterCW))))
+    | otherwise = ((genOutput CounterCW f (updtFacingDir f CounterCW)), (Field g (Ant (newPos pos f) (updtFacingDir f CounterCW))))
 
 -- "moves one step in the current direction and changing the orientation"
 -- tengo que ver donde estoy viendo nada mas
@@ -73,3 +77,9 @@ walk (Field g (Ant pos f))
 -- updateAntPos :: Ant -> Turns -> Ant
 -- updateAntPos (Ant (x,y) f) t
 --     | 
+
+--Data.Map.lookup (0,0) g
+main :: IO [String]
+main = do
+    let g = fromList [((i,j), False) | i <- [0 .. 10], j <- [0 .. 10]]
+    return (fst (runState (replicateM 10 step) (Field g (Ant (5,5) U))))
