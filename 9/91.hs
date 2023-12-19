@@ -9,7 +9,7 @@ instance Applicative Identity where
 
 instance Monad Identity where
     Identity a >>= g = g a
-    return = pure
+    return = pure -- diff return / pure -> pure is the monad operator -> Both lift your value up to the monad context
 
 -----------------
 data CountBinds a = CountBinds (Integer, a)
@@ -19,7 +19,8 @@ instance Functor CountBinds where
 
 instance Applicative CountBinds where
     pure a = CountBinds (0, a)
-    (CountBinds (i, f)) <*> smth = fmap f smth
+    (CountBinds (i, f)) <*> smth = fmap f smth -- not correct: should sum the counts
+    -- CountBinds (count1+count2, f smth)
 
 instance Monad CountBinds where
     CountBinds (i, a) >>= g = let CountBinds (i', b) = g a in CountBinds (i + i' + 1, b)

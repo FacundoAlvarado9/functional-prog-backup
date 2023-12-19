@@ -41,7 +41,7 @@ updtFacingDir L CW = U
 updtFacingDir L CounterCW = D
 
 {-
-Actualizar posición
+Update position
     Up -> (i-1, j) // Mind zero
     Down -> (i+1, j) // Mind max
     Right -> (i, j+1) // Mind max
@@ -64,19 +64,10 @@ genOutput turn oldFacingDir newFacingDir = show turn++" "++show oldFacingDir++"-
 step :: State Field String
 step = state walk
 
-
 walk :: Field -> (String, Field)
 walk (Field g (Ant pos f))
     | (Data.Map.lookup pos g == Just False) = ((genOutput CW f (updtFacingDir f CW)), (Field (Data.Map.insert pos True g) (Ant (newPos pos f) (updtFacingDir f CW) )))
     | otherwise = ((genOutput CounterCW f (updtFacingDir f CounterCW)), (Field g (Ant (newPos pos f) (updtFacingDir f CounterCW))))
-
--- "moves one step in the current direction and changing the orientation"
--- tengo que ver donde estoy viendo nada mas
--- porque nada mas me tengo que mover, después cambio de dirección
---
--- updateAntPos :: Ant -> Turns -> Ant
--- updateAntPos (Ant (x,y) f) t
---     | 
 
 --Data.Map.lookup (0,0) g
 main :: IO [String]
