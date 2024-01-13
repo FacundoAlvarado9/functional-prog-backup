@@ -17,7 +17,8 @@ instance Monad m => Functor (EitherTransformer m) where
     fmap f = EitherTransformer . fmap (fmap f) . runEitherTransformer
 
 instance Monad m => Monad (EitherTransformer m) where
-    return = EitherTransformer . return . return
+    --return = EitherTransformer . return . return
+    return = pure
     -- (>>=) :: EitherTransformer m a -> (a -> EitherTranformer m b) -> EitherTransoformer m b
     x >>= f = EitherTransformer $ do 
         either_value <- runEitherTransformer x -- I should get (Either String a)
