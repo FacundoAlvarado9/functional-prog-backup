@@ -39,6 +39,8 @@ instance Monad m => Applicative (InscFncT m) where
         v <- val -- (InscribedFunc a)
         return (f <*> v)
 
+-- 2 Problems:
+
 -- instance Monad m => MonadTrans (InscFncT m) where
 --     lift = InscFncT . InscFncT -- wrong but class not in scope
         
